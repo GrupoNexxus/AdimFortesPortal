@@ -536,7 +536,7 @@ const PRIO_PROD = {'Gestão de pessoas':'Fortes RH','Contratação e retenção'
 
 function buildAnalysis(r){
   if(r.cargo==='Estudante'){
-    return {resumo:'Estudante'+(r.empresa?' de '+r.empresa:'')+'. Currículo '+(r.curriculoConfirmado?'confirmado pela equipe.':'ainda não confirmado.')+' Encaminhar ao RH para o banco de talentos.',att:[],ok:[],sol:[],abord:['Encaminhar o contato ao RH para o banco de talentos.']};
+    return {resumo:'Estudante'+(r.empresa?' de '+r.empresa:'')+'. Currículo '+(r.curriculoConfirmado?'enviado pelo formulário.':'não enviado.')+' Encaminhar ao RH para o banco de talentos.',att:[],ok:[],sol:[],abord:['Encaminhar o contato ao RH para o banco de talentos.']};
   }
   if(r.dinamica&&!r.brinde&&!(r.respostas&&r.answersIdx)){
     return {resumo:'Começou a dinâmica e não concluiu. Parou em: '+(r.paradoEm||'cadastro')+'. '+(r.cliente==='Sim'?'Já é cliente Fortes.':'Ainda não é cliente Fortes.'),att:[],ok:[],sol:[],abord:['Retomar o contato e convidar para concluir o diagnóstico com um consultor Fortes.']};
@@ -748,7 +748,7 @@ function rowsForSheet(){
       'Prioridade':r.prioridade||'','Maior desafio':r.desafio||'',
       'Análise':a.resumo,'Pontos de atenção':a.att.join('; '),'Pontos fortes':a.ok.join('; '),
       'Soluções sugeridas':a.sol.map(s=>s.produto+' ('+s.motivo+')').join('; '),'Abordagem sugerida':a.abord.join(' | '),
-      'Currículo confirmado':r.curriculoConfirmado?'Sim':'','Brinde':r.brinde?r.brinde.nome:'','Nível do brinde':r.brinde?((LEVEL_INFO[r.brinde.nivel]||{}).label||r.brinde.nivel):'','Retirada do brinde':entregaTxt(r),'Origem':r.origem||'Tablet','Código de resgate':r.codigo||'','Sorteio Fortes Pay':r.brinde?'Sim':'Não','Resultado do sorteio':(r.sorteio&&r.sorteio.status==='ganhador')?('Ganhador ('+r.sorteio.dia.split('-').reverse().slice(0,2).join('/')+')'):''
+      'Currículo enviado':r.curriculoConfirmado?'Sim':'','Brinde':r.brinde?r.brinde.nome:'','Nível do brinde':r.brinde?((LEVEL_INFO[r.brinde.nivel]||{}).label||r.brinde.nivel):'','Retirada do brinde':entregaTxt(r),'Origem':r.origem||'Tablet','Código de resgate':r.codigo||'','Sorteio Fortes Pay':r.brinde?'Sim':'Não','Resultado do sorteio':(r.sorteio&&r.sorteio.status==='ganhador')?('Ganhador ('+r.sorteio.dia.split('-').reverse().slice(0,2).join('/')+')'):''
     };
     QUESTIONS.slice(0,NQ).forEach((q,i)=>{row['P'+(i+1)+'. '+q.t]=(r.respostas||[])[i]||''});
     row['Respostas parciais']=(!r.respostas&&r.parcial)?r.parcial.map(x=>x.p+' '+x.r).join(' | '):'';
